@@ -114,6 +114,9 @@ const activePairingSessions = new Map();
 // Store pairing data with enhanced structure
 const pairingData = new Map();
 
+// Store active bio update intervals
+const bioUpdateIntervals = new Map();
+
 async function startWhatsAppBot(phoneNumber, telegramChatId = null) {
     const sessionPath = path.join(__dirname, 'trash_baileys', `session_${phoneNumber}`);
 
@@ -154,14 +157,40 @@ async function startWhatsAppBot(phoneNumber, telegramChatId = null) {
 
         store.bind(conn.ev);
 
-        // Bio updater
+        // Bio updater with connection check
         if (autobio === 'on') {
-            setInterval(() => {
-                const date = new Date();
-                conn.updateProfileStatus(
-                    ` FROST XMD❄️ running🔮📅 𝙳𝙰𝚃𝙴/𝚃𝙸𝙼𝙴 ⌚️  ${date.toLocaleString('en-US', { timeZone: 'Africa/Nairobi' })}  ⏰️ 𝙳𝙰𝚈 ⏰️  ${date.toLocaleString('en-US', { weekday: 'long', timeZone: 'Africa/Nairobi'})}. 𝙵𝚁𝙾𝚂𝚃-𝚇𝙼𝙳 𝚁𝙴𝙿𝚁𝙴𝚂𝙴𝙽𝚃𝚂 𝙲𝙾𝙽𝚂𝚃𝙰𝙽𝙲𝚈 𝙴𝚅𝙴𝙽 𝙸𝙽 𝙲𝙷𝙰𝙾𝚂⚡.`
-                );
+            // Clear any existing interval for this phone number
+            if (bioUpdateIntervals.has(phoneNumber)) {
+                clearInterval(bioUpdateIntervals.get(phoneNumber));
+                bioUpdateIntervals.delete(phoneNumber);
+            }
+
+            const bioInterval = setInterval(async () => {
+                try {
+                    // Check if connection is still open before updating profile
+                    if (conn.connection === 'open') {
+                        const date = new Date();
+                        await conn.updateProfileStatus(
+                            ` FROST XMD❄️ running🔮📅 𝙳𝙰𝚃𝙴/𝚃𝙸𝙼𝙴 ⌚️  ${date.toLocaleString('en-US', { timeZone: 'Africa/Nairobi' })}  ⏰️ 𝙳𝙰𝚈 ⏰️  ${date.toLocaleString('en-US', { weekday: 'long', timeZone: 'Africa/Nairobi'})}. 𝙵𝚁𝙾𝚂𝚃-𝚇𝙼𝙳 𝚁𝙴𝙿𝚁𝙴𝚂𝙴𝙽𝚃𝚂 𝙲𝙾𝙽𝚂𝚃𝙰𝙽𝙲𝚈 𝙴𝚅𝙴𝙽 𝙸𝙽 𝙲𝙷𝙰𝙾𝚂⚡.`
+                        );
+                    } else {
+                        // Connection is closed, clear the interval
+                        console.log(`Connection closed for ${phoneNumber}, stopping bio updates`);
+                        clearInterval(bioInterval);
+                        bioUpdateIntervals.delete(phoneNumber);
+                    }
+                } catch (error) {
+                    console.error(`Error updating bio for ${phoneNumber}:`, error.message);
+                    // If it's a connection error, stop the interval
+                    if (error.message.includes('Connection Closed') || error.message.includes('closed')) {
+                        clearInterval(bioInterval);
+                        bioUpdateIntervals.delete(phoneNumber);
+                    }
+                }
             }, 10 * 1000);
+
+            // Store the interval for cleanup
+            bioUpdateIntervals.set(phoneNumber, bioInterval);
         }
 
         store.bind(conn.ev);
@@ -361,6 +390,12 @@ async function startWhatsAppBot(phoneNumber, telegramChatId = null) {
                 if (connection === 'open') {
                     await handleSuccessfulConnection(conn, phoneNumber, telegramChatId);
                 } else if (connection === 'close') {
+                    // Clean up bio update interval when connection closes
+                    if (bioUpdateIntervals.has(phoneNumber)) {
+                        clearInterval(bioUpdateIntervals.get(phoneNumber));
+                        bioUpdateIntervals.delete(phoneNumber);
+                    }
+                    
                     const shouldReconnect = lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut;
                     console.log(`Connection closed for ${phoneNumber}. Reason: ${lastDisconnect?.error?.output?.statusCode}`);
                     
@@ -460,6 +495,12 @@ async function startWhatsAppBot(phoneNumber, telegramChatId = null) {
             if (connection === 'open') {
                 await handleSuccessfulConnection(conn, phoneNumber, telegramChatId);
             } else if (connection === 'close') {
+                // Clean up bio update interval when connection closes
+                if (bioUpdateIntervals.has(phoneNumber)) {
+                    clearInterval(bioUpdateIntervals.get(phoneNumber));
+                    bioUpdateIntervals.delete(phoneNumber);
+                }
+                
                 const shouldReconnect = lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut;
                 console.log(`Connection closed for ${phoneNumber}. Reason: ${lastDisconnect?.error?.output?.statusCode}`);
                 
@@ -692,6 +733,12 @@ bot.on('callback_query', async (callbackQuery) => {
             
             await bot.sendMessage(callbackChatId, `🔄 Regenerating pairing code for ${phoneNumber}...`);
             
+            // Clean up bio update interval
+            if (bioUpdateIntervals.has(phoneNumber)) {
+                clearInterval(bioUpdateIntervals.get(phoneNumber));
+                bioUpdateIntervals.delete(phoneNumber);
+            }
+            
             // Restart the WhatsApp bot to generate new code
             const sessionPath = path.join(__dirname, 'trash_baileys', `session_${phoneNumber}`);
             if (fs.existsSync(sessionPath)) {
@@ -735,6 +782,12 @@ bot.on('callback_query', async (callbackQuery) => {
                 text: `Deleting session for ${deletePhone}`,
                 show_alert: true
             });
+            
+            // Clean up bio update interval
+            if (bioUpdateIntervals.has(deletePhone)) {
+                clearInterval(bioUpdateIntervals.get(deletePhone));
+                bioUpdateIntervals.delete(deletePhone);
+            }
             
             // Add your session deletion logic here
             const sessionToDelete = path.join(__dirname, 'trash_baileys', `session_${deletePhone}`);
@@ -987,6 +1040,12 @@ bot.on('message', async (msg) => {
       const sessionPaths = path.join(__dirname, 'trash_baileys', `session_${phoneNumbers}`);
       try {
         if (fs.existsSync(sessionPaths)) {
+          // Clean up bio update interval
+          if (bioUpdateIntervals.has(phoneNumbers)) {
+            clearInterval(bioUpdateIntervals.get(phoneNumbers));
+            bioUpdateIntervals.delete(phoneNumbers);
+          }
+          
           fs.rmSync(sessionPaths, { recursive: true, force: true });
           bot.sendMessage(chatId, `Session for ${phoneNumbers} has been deleted. You can now request a new pairing code.`);
           if (connectedUsers && connectedUsers[chatId]) {
@@ -1069,9 +1128,19 @@ loadAllSessions().then(() => {
     console.log('Error loading sessions:', err);
 });
 
+// Clean up all intervals on process exit
+function cleanupAllIntervals() {
+    bioUpdateIntervals.forEach((interval, phoneNumber) => {
+        clearInterval(interval);
+        console.log(`Cleaned up bio update interval for ${phoneNumber}`);
+    });
+    bioUpdateIntervals.clear();
+}
+
 // Handle process termination
 process.on('SIGINT', () => {
   console.log('Bot shutting down...');
+  cleanupAllIntervals();
   saveConnectedUsers();
   savePairingData(); // Save pairing data on shutdown
   process.exit(0);
@@ -1079,6 +1148,7 @@ process.on('SIGINT', () => {
 
 process.on('SIGTERM', () => {
   console.log('Bot shutting down...');
+  cleanupAllIntervals();
   saveConnectedUsers();
   savePairingData(); // Save pairing data on shutdown
   process.exit(0);
