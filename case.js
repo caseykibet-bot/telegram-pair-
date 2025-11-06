@@ -477,7 +477,29 @@ ${readMore}
 ╰───────────────────┈⊷
 > ✦ 𝗣𝗼𝘄𝗲𝗿𝗲𝗱 𝗯𝘆 𝗖𝗮𝘀𝗲𝘆𝗿𝗵𝗼𝗱𝗲𝘀 🧑‍💻`;
 
+        // Contact message for verified context
+        const verifiedContact = {
+            key: {
+                fromMe: false,
+                participant: `0@s.whatsapp.net`,
+                remoteJid: "status@broadcast"
+            },
+            message: {
+                contactMessage: {
+                    displayName: "CASEYRHODES VERIFIED ✅",
+                    vcard: "BEGIN:VCARD\nVERSION:3.0\nFN: Caseyrhodes VERIFIED ✅\nORG:CASEYRHODES-TECH BOT;\nTEL;type=CELL;type=VOICE;waid=254112192119:+254112192119\nEND:VCARD"
+                }
+            }
+        };
+
     const thumbnailUrl = 'https://files.catbox.moe/k3wgqy.jpg';
+    
+    const audioUrls = [
+        'https://files.catbox.moe/53phs2.mp3',
+        'https://files.catbox.moe/f9p3vo.mp3',
+    ];
+
+    const randomAudioUrl = audioUrls[Math.floor(Math.random() * audioUrls.length)];
     
     try {
         // Send menu message
@@ -503,8 +525,15 @@ ${readMore}
                 }
             }
         }, { 
-            quoted: m
+            quoted: verifiedContact  // Use fake verification as quoted
         });
+
+        // Then send audio
+        await trashcore.sendMessage(m.chat, {
+            audio: { url: randomAudioUrl },
+            mimetype: 'audio/mp4',
+            ptt: false
+        }, { quoted: verifiedContact });
 
         // Add success reaction after menu is sent
         await trashcore.sendMessage(m.chat, {
@@ -522,7 +551,7 @@ ${readMore}
         // Fast fallback - send text only
         await trashcore.sendMessage(m.chat, { 
             text: text
-        }, { quoted: m });
+        }, { quoted: verifiedContact });
 
         // Add fallback success reaction
         await trashcore.sendMessage(m.chat, {
