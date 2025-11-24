@@ -12,7 +12,8 @@ const ytdl = require("ytdl-core");
 const { exec } = require('child_process');
 const axios = require('axios'); // Added missing axios import
 // Add this at the top of your file with other constants
-const readMore = String.fromCharCode(8206).repeat(4001);
+const more = String.fromCharCode(8206);
+const readmore = more.repeat(4001);
 const { downloadContentFromMessage, proto, generateWAMessage, getContentType, prepareWAMessageMedia, generateWAMessageFromContent, GroupSettingChange, jidDecode, WAGroupMetadata, emitGroupParticipantsUpdate, emitGroupUpdate, generateMessageID, jidNormalizedUser, generateForwardMessageContent, WAGroupInviteMessageGroupMetadata, GroupMetadata, Headers, delay, WA_DEFAULT_EPHEMERAL, WADefault, getAggregateVotesInPollMessage, generateWAMessageContent, areJidsSameUser, useMultiFileAuthState, fetchLatestBaileysVersion, makeCacheableSignalKeyStore, makeWaconnet, makeInMemoryStore, MediaType, WAMessageStatus, downloadAndSaveMediaMessage, AuthenticationState, initInMemoryKeyStore, MiscMessageGenerationOptions, useSingleFileAuthState, BufferJSON, WAMessageProto, MessageOptions, WAFlag, WANode, WAMetric, ChatModification, MessageTypeProto, WALocationMessage, ReconnectMode, WAContextInfo, ProxyAgent, waChatKey, MimetypeMap, MediaPathMap, WAContactMessage, WAContactsArrayMessage, WATextMessage, WAMessageContent, WAMessage, BaileysError, WA_MESSAGE_STATUS_TYPE, MediaConnInfo, URL_REGEX, WAUrlInfo, WAMediaUpload, mentionedJid, processTime, Browser, MessageType,
 Presence, WA_MESSAGE_STUB_TYPES, Mimetype, relayWAMessage, Browsers, DisconnectReason, WAconnet, getStream, WAProto, isBaileys, AnyMessageContent, templateMessage, InteractiveMessage, Header } = require("@whiskeysockets/baileys")
 const thumb = fs.readFileSync('./media/thumb.jpg')
@@ -338,16 +339,19 @@ case "menu": {
         react: { text: "🐣", key: m.key }
     });
 
-    let text = `❄️ 𝗙𝗥𝗢𝗦𝗧-𝗫𝗠𝗗 ❄️
-*╭───────────────────┈⊷*
-*┊•📚 𝗟𝗶𝗯𝗿𝗮𝗿𝘆* : ʙᴀɪʟᴇʏꜱ
-*┊•⚡ 𝗣𝗿𝗲𝗳𝗶𝘅* : [ ${prefix} ]
-*┊•🔒 𝗦𝘁𝗮𝘁𝘂𝘀* : ${trashcore.public ? 'ᴘᴜʙʟɪᴄ' : 'ꜱᴇʟꜰ'}
-*┊•👑 𝗖𝗿𝗲𝗮𝘁𝗼𝗿* : t.me/caseyrhodes001
-*┊•🔮 𝗙𝗿𝗲𝗲 𝗯𝗼𝘁* : https://t.me/caseybase_bot
-*┊•🧑‍💻 don't stop trying*
-*╰───────────────────┈⊷*
-${readMore}
+    let text = `*⟣──────────────────⟢*
+▧ *ᴄʀᴇᴀᴛᴏʀ* : *ᴍʀ ᴄᴀsᴇʏʀʜᴏᴅᴇs (🇰🇪)*
+▧ *ᴍᴏᴅᴇ* : *public*
+▧ *ᴘʀᴇғɪx* : *.* (dot)
+▧ *ᴛᴏᴛᴀʟ ᴄᴏᴍᴍᴀɴᴅs* : _
+▧ *ʀᴀᴍ* : _
+▧ *ᴠᴇʀsɪᴏɴ* : *V.5* ⚡
+▧ *ᴜᴘᴛɪᴍᴇ* : _
+
+⟣──────────────────⟢
+${readmore}
+> FROST XMD
+*⟣──────────────────⟢*
 ╭《 \`𝗕𝗨𝗚 𝗠𝗘𝗡𝗨\` 》────┈⊷
 ┊ ʜᴀᴄᴋ
 ┊ ʙᴜɢ
@@ -362,6 +366,7 @@ ${readMore}
 
 ╭《 \`𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗 𝗠𝗘𝗡𝗨\` 》─┈⊷
 ┊ 🎵  ꜱᴏɴɢ 
+┊ 🤖  Ai
 ┊ 🎧  ᴘʟᴀʏ2
 ┊ 🎬  ᴠɪᴅᴇᴏ
 ┊ 📱  ᴛɪᴋᴛᴏᴋ
@@ -477,22 +482,22 @@ ${readMore}
 ╰───────────────────┈⊷
 > ✦ 𝗣𝗼𝘄𝗲𝗿𝗲𝗱 𝗯𝘆 𝗖𝗮𝘀𝗲𝘆𝗿𝗵𝗼𝗱𝗲𝘀 🧑‍💻`;
 
-        // Contact message for verified context
-        const verifiedContact = {
-            key: {
-                fromMe: false,
-                participant: `0@s.whatsapp.net`,
-                remoteJid: "status@broadcast"
-            },
-            message: {
-                contactMessage: {
-                    displayName: "CASEYRHODES VERIFIED ✅",
-                    vcard: "BEGIN:VCARD\nVERSION:3.0\nFN: Caseyrhodes VERIFIED ✅\nORG:CASEYRHODES-TECH BOT;\nTEL;type=CELL;type=VOICE;waid=254112192119:+254112192119\nEND:VCARD"
-                }
+    // Contact message for verified context
+    const verifiedContact = {
+        key: {
+            fromMe: false,
+            participant: `0@s.whatsapp.net`,
+            remoteJid: "status@broadcast"
+        },
+        message: {
+            contactMessage: {
+                displayName: "CASEYRHODES VERIFIED ✅",
+                vcard: "BEGIN:VCARD\nVERSION:3.0\nFN: Caseyrhodes VERIFIED ✅\nORG:CASEYRHODES-TECH BOT;\nTEL;type=CELL;type=VOICE;waid=254112192119:+254112192119\nEND:VCARD"
             }
-        };
+        }
+    };
 
-    const thumbnailUrl = 'https://files.catbox.moe/k3wgqy.jpg';
+    const thumbnailUrl = 'https://i.ibb.co/bRycrKFy/IMG-20251112-WA0007.jpg';
     
     const audioUrls = [
         'https://files.catbox.moe/53phs2.mp3',
@@ -502,37 +507,29 @@ ${readMore}
     const randomAudioUrl = audioUrls[Math.floor(Math.random() * audioUrls.length)];
     
     try {
-        // Send menu message
-        const menuMessage = await trashcore.sendMessage(m.chat, { 
+        // Newsletter context info
+        const newsletterContext = {
+            forwardingScore: 1,
+            isForwarded: true,
+            forwardedNewsletterMessageInfo: {
+                newsletterJid: '120363420261263259@newsletter',
+                newsletterName: 'FROST XMD🌟',
+                serverMessageId: -1
+            }
+        };
+
+        // Send menu with image and newsletter context
+        const sentMsg = await trashcore.sendMessage(m.chat, { 
             image: { url: thumbnailUrl },
             caption: text,
-            mentions: [m.sender],
-            contextInfo: {
-                forwardingScore: 1,
-                isForwarded: true,
-                forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363420261263259@newsletter',
-                    newsletterName: 'ꜰʀᴏꜱᴛ-xᴍᴅ ᴘʀᴇᴍɪᴜᴍ 🌟',
-                    serverMessageId: -1
-                },
-                externalAdReply: {
-                    title: `𝐅𝐑𝐎𝐒𝐓-𝐗𝐌𝐃 𝐌𝐄𝐍𝐔 ❄️`,
-                    body: `ᴘʀᴇᴍɪᴜᴍ ʙᴏᴛ ꜱᴇʀᴠɪᴄᴇꜱ`,
-                    mediaType: 1,
-                    thumbnailUrl: "https://files.catbox.moe/dg3jwo.jpg",
-                    sourceUrl: "https://wa.me/254112192119",
-                    renderLargerThumbnail: false
-                }
-            }
-        }, { 
-            quoted: verifiedContact  // Use fake verification as quoted
-        });
+            contextInfo: newsletterContext
+        }, { quoted: verifiedContact });
 
         // Then send audio
         await trashcore.sendMessage(m.chat, {
             audio: { url: randomAudioUrl },
             mimetype: 'audio/mp4',
-            ptt: false
+            ptt: true
         }, { quoted: verifiedContact });
 
         // Add success reaction after menu is sent
@@ -1427,6 +1424,140 @@ case "tagall2": {
     } catch (error) {
         console.error("Tagall2 error:", error);
         return m.reply("❌ Failed to tag all members.");
+    }
+}
+break;
+case "ai":
+case "ask":
+case "gpt":
+case "casey": {
+    try {
+        await trashcore.sendMessage(m.chat, {
+            react: { text: "🤖", key: m.key }
+        });
+
+        const q = text || m.message?.imageMessage?.caption || m.message?.videoMessage?.caption || '';
+
+        if (!q || q.trim() === '') {
+            return await trashcore.sendMessage(m.chat, { 
+                text: `❓ *Please ask me something*\n\n*Example:* .ai Who are you?`
+            }, { quoted: m });
+        }
+
+        // Function to handle custom responses
+        const getCustomResponse = (text) => {
+            const lowerText = text.toLowerCase();
+            
+            // Check for owner/developer related queries
+            if (lowerText.includes('owner') || lowerText.includes('developer') || lowerText.includes('creator') || 
+                lowerText.includes('who owns you') || lowerText.includes('who created you') || 
+                lowerText.includes('who developed you') || lowerText.includes('who built you')) {
+                
+                return `*👨‍💻 MEET THE DEVELOPER*\n\n🇰🇪 *Primary Developer:* CaseyRhodes Tech\n• Location: Kenya\n• Specialization: AI Integration & Bot Development\n• Role: Lead Developer & Project Owner\n\n🤖 *Technical Partner:* Caseyrhodes\n• Specialization: Backend Systems & API Management\n• Role: Technical Support & Infrastructure\n\n*About Our Team:*\nCasey AI is the result of a CaseyRhodes Tech  Together, we bring you cutting-edge AI technology with reliable bot functionality, ensuring you get the best AI experience possible.\n\n*Proudly Made in Kenya* 🇰🇪`;
+            }
+
+            // Check for creation date/when made queries
+            if (lowerText.includes('when were you made') || lowerText.includes('when were you created') || 
+                lowerText.includes('when were you developed') || lowerText.includes('creation date') || 
+                lowerText.includes('when did you start') || lowerText.includes('how old are you') ||
+                lowerText.includes('when were you built') || lowerText.includes('release date')) {
+                
+                return `*📅 CASEY AI TIMELINE*\n\n🚀 *Development Started:* December 2025\n🎯 *First Release:* January 2025\n🔄 *Current Version:* 2.0 (February 2025)\n\n*Development Journey:*\n• *Phase 1:* Core AI integration and basic functionality\n• *Phase 2:* Enhanced response system and multi-API support\n• *Phase 3:* Advanced customization and user experience improvements\n\n*What's Next:*\nWe're constantly working on updates to make Casey AI smarter, faster, and more helpful. Stay tuned for exciting new features!\n\n*Age:* Just a few months old, but getting smarter every day! 🧠✨`;
+            }
+
+            // Check for AI name queries
+            if (lowerText.includes('what is your name') || lowerText.includes('what\'s your name') || 
+                lowerText.includes('tell me your name') || lowerText.includes('your name') || 
+                lowerText.includes('name?') || lowerText.includes('called?')) {
+                
+                return `*🏷️ MY NAME*\n\n👋 Hello! My name is *CASEY AI*\n\n*About My Name:*\n• Full Name: Casey AI\n• Short Name: Casey\n• You can call me: Casey, Casey AI, or just AI\n\n*Name Origin:*\nI'm named after my primary developer *CaseyRhodes Tech*, combining the personal touch of my creator with the intelligence of artificial intelligence technology.\n\n*What Casey Stands For:*\n🔹 *C* - Creative Problem Solving\n🔹 *A* - Advanced AI Technology\n🔹 *S* - Smart Assistance\n🔹 *E* - Efficient Responses\n🔹 *Y* - Your Reliable Companion\n\n*Made in Kenya* 🇰🇪 *by CaseyRhodes Tech*`;
+            }
+
+            // Check for general info about Casey AI
+            if (lowerText.includes('what are you') || lowerText.includes('tell me about yourself') || 
+                lowerText.includes('who are you') || lowerText.includes('about casey')) {
+                
+                return `👋 Hi! I'm *Casey AI*, your intelligent WhatsApp assistant developed by CaseyRhodes Tech.\n\n*What I Can Do:*\n• Answer questions on any topic\n• Help with problem-solving\n• Provide information and explanations\n• Assist with creative tasks\n• Engage in meaningful conversations\n\n*My Features:*\n✅ Advanced AI technology\n✅ Multi-language support\n✅ Fast response times\n✅ Reliable dual-API system\n✅ User-friendly interface\n\n*My Identity:*\n• Name: Casey AI\n• Origin: Kenya 🇰🇪\n• Purpose: Making AI accessible and helpful\n\n*Proudly Kenyan:* 🇰🇪\nBuilt with passion in Kenya, serving users worldwide with cutting-edge AI technology.\n\nHow can I assist you today?`;
+            }
+
+            // Return null if no custom response matches
+            return null;
+        };
+
+        // Check for custom responses first
+        const customResponse = getCustomResponse(q);
+        if (customResponse) {
+            return await trashcore.sendMessage(m.chat, {
+                image: { url: 'https://i.ibb.co/fGSVG8vJ/caseyweb.jpg' },
+                caption: customResponse,
+                contextInfo: {
+                    forwardingScore: 1,
+                    isForwarded: true,
+                    forwardedNewsletterMessageInfo: {
+                        newsletterJid: '120363420261263259@newsletter',
+                        newsletterName: 'CASEYRHODES XMD🌟',
+                        serverMessageId: -1
+                    }
+                }
+            }, { quoted: m });
+        }
+
+        const apis = [
+            `https://api.giftedtech.co.ke/api/ai/geminiaipro?apikey=gifted&q=${encodeURIComponent(q)}`,
+            `https://lance-frank-asta.onrender.com/api/gpt?q=${encodeURIComponent(q)}`
+        ];
+
+        let response = null;
+        for (const apiUrl of apis) {
+            try {
+                const res = await axios.get(apiUrl, { timeout: 10000 });
+                response = res.data?.result || res.data?.response || res.data?.answer || res.data;
+                if (response && typeof response === 'string' && response.trim() !== '') {
+                    break;
+                }
+            } catch (err) {
+                console.error(`AI Error (${apiUrl}):`, err.message);
+                continue;
+            }
+        }
+
+        if (!response) {
+            return await trashcore.sendMessage(m.chat, { 
+                text: `❌ *I'm experiencing technical difficulties*\nAll AI APIs are currently unavailable. Please try again later.`
+            }, { quoted: m });
+        }
+
+        // Send AI response with image
+        await trashcore.sendMessage(m.chat, {
+            image: { url: 'https://i.ibb.co/fGSVG8vJ/caseyweb.jpg' },
+            caption: `🤖 *Caseyrhodes AI:*\n\n${response}\n\n👨‍💻 *Developer:* CaseyRhodes Tech`,
+            contextInfo: {
+                forwardingScore: 1,
+                isForwarded: true,
+                forwardedNewsletterMessageInfo: {
+                    newsletterJid: '120363420261263259@newsletter',
+                    newsletterName: 'CASEYRHODES XMD🌟',
+                    serverMessageId: -1
+                }
+            }
+        }, { quoted: m });
+
+        // Add success reaction
+        await trashcore.sendMessage(m.chat, {
+            react: { text: "✅", key: m.key }
+        });
+
+    } catch (error) {
+        console.error('AI Command Error:', error);
+        
+        // Add error reaction
+        await trashcore.sendMessage(m.chat, {
+            react: { text: "❌", key: m.key }
+        });
+        
+        await trashcore.sendMessage(m.chat, { 
+            text: `❌ *AI Error:* ${error.message}\nPlease try again later.`
+        }, { quoted: m });
     }
 }
 break;
